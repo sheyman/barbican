@@ -237,112 +237,17 @@ function create_barbican_accounts {
         --project "$SERVICE_PROJECT" \
         "$SERVICE_ADMIN_ROLE"
     #
-    # Setup RBAC User Projects and Roles
+    # Setup RBAC User Roles
     #
     PASSWORD="barbican"
-    PROJECT_A_ID=$(get_id openstack project create "project_a")
-    PROJECT_B_ID=$(get_id openstack project create "project_b")
-    ROLE_ADMIN_ID=$(get_id openstack role show admin)
+
+    # Admin role already exists, no need to create it here.
+    # To retrieve it, simply uncomment:
+    #   ROLE_ADMIN_ID=$(get_id openstack role show admin)
     ROLE_CREATOR_ID=$(get_id openstack role create "creator")
     ROLE_OBSERVER_ID=$(get_id openstack role create "observer")
     ROLE_AUDIT_ID=$(get_id openstack role create "audit")
-    #
-    # Setup RBAC Admin of Project A
-    #
-    USER_ID=$(get_id openstack user create \
-        --password "$PASSWORD" \
-        --email "admin_a@example.net" \
-        "project_a_admin")
-    openstack role add \
-        --user "$USER_ID" \
-        --project "$PROJECT_A_ID" \
-        "$ROLE_ADMIN_ID"
-    #
-    # Setup RBAC Creator of Project A
-    #
-    USER_ID=$(get_id openstack user create \
-        --password "$PASSWORD" \
-        --email "creator_a@example.net" \
-        "project_a_creator")
-    openstack role add \
-        --user "$USER_ID" \
-        --project "$PROJECT_A_ID" \
-        "$ROLE_CREATOR_ID"
-    # Adding second creator user in project_a
-    USER_ID=$(openstack user create \
-        --password "$PASSWORD" \
-        --email "creator2_a@example.net" \
-        "project_a_creator_2" -f value -c id)
-    openstack role add \
-        --user "$USER_ID" \
-        --project "$PROJECT_A_ID" \
-        "$ROLE_CREATOR_ID"
-    #
-    # Setup RBAC Observer of Project A
-    #
-    USER_ID=$(get_id openstack user create \
-        --password "$PASSWORD" \
-        --email "observer_a@example.net" \
-        "project_a_observer")
-    openstack role add \
-        --user "$USER_ID" \
-        --project "$PROJECT_A_ID" \
-        "$ROLE_OBSERVER_ID"
-    #
-    # Setup RBAC Auditor of Project A
-    #
-    USER_ID=$(get_id openstack user create \
-        --password "$PASSWORD" \
-        --email "auditor_a@example.net" \
-        "project_a_auditor")
-    openstack role add \
-        --user "$USER_ID" \
-        --project "$PROJECT_A_ID" \
-        "$ROLE_AUDIT_ID"
-    #
-    # Setup RBAC Admin of Project B
-    #
-    USER_ID=$(get_id openstack user create \
-        --password "$PASSWORD" \
-        --email "admin_b@example.net" \
-        "project_b_admin")
-    openstack role add \
-        --user "$USER_ID" \
-        --project "$PROJECT_B_ID" \
-        "$ROLE_ADMIN_ID"
-    #
-    # Setup RBAC Creator of Project B
-    #
-    USER_ID=$(get_id openstack user create \
-        --password "$PASSWORD" \
-        --email "creator_b@example.net" \
-        "project_b_creator")
-    openstack role add \
-        --user "$USER_ID" \
-        --project "$PROJECT_B_ID" \
-        "$ROLE_CREATOR_ID"
-    #
-    # Setup RBAC Observer of Project B
-    #
-    USER_ID=$(get_id openstack user create \
-        --password "$PASSWORD" \
-        --email "observer_b@example.net" \
-        "project_b_observer")
-    openstack role add \
-        --user "$USER_ID" \
-        --project "$PROJECT_B_ID" \
-        "$ROLE_OBSERVER_ID"
-    #
-    # Setup RBAC auditor of Project B
-    #
-    USER_ID=$(get_id openstack user create \
-        --password "$PASSWORD" \
-        --email "auditor_b@example.net" \
-        "project_b_auditor")
-    openstack role add \
-        --user "$USER_ID" \
-        --project "$PROJECT_B_ID" \
-        "$ROLE_AUDIT_ID"
+
     #
     # Setup Barbican Endpoint
     #
